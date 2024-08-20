@@ -1,15 +1,11 @@
 <template>
-    <div>
-        Login
-    </div>
+  <div>Login</div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'LoginView',
-    };
+export default {
+  name: 'LoginView'
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
