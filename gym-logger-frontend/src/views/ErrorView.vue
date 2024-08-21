@@ -1,15 +1,11 @@
 <template>
-    <div>
-        ErrorView
-    </div>
+  <div>ErrorView</div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'ErrorView',
-    };
+export default {
+  name: 'ErrorView'
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

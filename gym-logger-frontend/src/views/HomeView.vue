@@ -1,15 +1,11 @@
 <template>
-    <div>
-        HomeView
-    </div>
+  <div>HomeView</div>
 </template>
 
 <script lang="ts">
-    export default {
-        name: 'HomeView',
-    };
+export default {
+  name: 'HomeView'
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

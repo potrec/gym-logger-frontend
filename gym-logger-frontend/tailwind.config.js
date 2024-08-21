@@ -1,16 +1,23 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: true,
-  content: [
-    './pages/**/*.{html,js}',
-    './components/**/*.{html,js}',
-  ],
+  content: ['./src/**/*.{html,js,ts,vue,css}'],
+  darkMode: 'class',
   theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
+    extend: {
+      colors: {
+        primary: 'var(--primary-color)',
+        'primary-accent': 'var(--primary-color-accent)',
+        page: 'var(--page-background-color)',
+        'page-accent': 'var(--page-background-color-accent)',
+        panel: 'var(--panel-background-color)'
+      }
+    },
+    variants: {
+      extend: {}
+    },
+    plugins: [],
+    corePlugins: {
+      preflight: false
+    }
+  }
 }
-

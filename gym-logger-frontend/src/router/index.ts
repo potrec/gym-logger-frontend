@@ -1,23 +1,30 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '@/views/HomeView.vue';
-import LoginView from '@/views/LoginView.vue';
-import RegisterView from '@/views/RegisterView.vue';
 
 const routes = [
   {
     path: '/',
     name: 'home',
-    component: HomeView
+    component: () => import('@/views/HomeView.vue'),
   },
   {
     path: '/login',
     name: 'login',
-    component: LoginView
+    component: () => import('@/views/LoginView.vue'),
   },
   {
     path: '/register',
     name: 'register',
-    component: RegisterView
+    component: () => import('@/views/RegisterView.vue'),
+  },
+  {
+    path: '/color',
+    name: 'color',
+    component: () => import('@/views/ColorView.vue'),
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'error',
+    component: () => import('@/views/ErrorView.vue'),
   }
 ]
 
