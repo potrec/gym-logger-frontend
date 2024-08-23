@@ -3,11 +3,11 @@
     <div class="flex flex-col bg-panel items-center m-16 rounded-md w-3/4 lg:w-3/8 xl:w-1/4">
       <h1 class="text-4xl mt-4 font-bold">Login</h1>
       <div class="flex flex-col w-1/2 rounded-lg mt-6">
-        <label for="username">Username</label>
+        <label for="email">Email</label>
         <input
           class="mt-1 border-2 border-solid border-slate-600 rounded-lg pl-2"
-          type="text"
-          id="username"
+          type="email"
+          id="email"
         />
       </div>
       <div class="flex flex-col w-1/2 mt-6 mb-6">
