@@ -1,5 +1,5 @@
 <template>
-  <div v-bind:class="store.getCurrentTheme">
+  <div>
     <router-view />
   </div>
 </template>
