@@ -1,15 +1,23 @@
 <template>
-  <div class="flex w-screen h-screen items-center justify-center">
-    <div class="flex flex-col w-1/2 h-1/2 justify-evenly bg-page-accent p-6">
-      <Input label="Username" type="text" id="username" :icon="['fas', 'user']" />
-      <Input label="Email" type="email" id="email" :icon="['fas', 'at']" />
-      <Input label="Password" type="password" id="password" :icon="['fas', 'lock']" />
-      <Input
-        label="Confirm Password"
-        type="password"
-        id="confirmPassword"
-        :icon="['fas', 'user']"
-      />
+  <div class="flex shadow-2xl flex-col">
+    <div class="flex">
+      <div class="flex flex-col w-1/2 h-1/2 justify-evenly bg-page-accent p-6 w-3/5">
+        <Input label="Username" type="text" id="username" :icon="['fas', 'user']" />
+        <Input label="Email" type="email" id="email" :icon="['fas', 'at']" />
+        <Input label="Password" type="password" id="password" :icon="['fas', 'lock']" />
+        <Input
+          label="Confirm Password"
+          type="password"
+          id="confirmPassword"
+          :icon="['fas', 'user']"
+        />
+      </div>
+      <div class="bg-primary-accent w-2/5">
+        <h1 class="text-4xl text-white mx-2 my-2">Welcome</h1>
+      </div>
+    </div>
+    <div class="bg-primary-accent text-sm text-white p-2">
+      You have an account? <router-link to="/register">Click here to login</router-link>
     </div>
   </div>
 </template>
