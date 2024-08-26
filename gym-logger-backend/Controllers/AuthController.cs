@@ -20,5 +20,22 @@ namespace gym_logger_backend.Controllers
 
             return Ok(user);
         }
+
+        [HttpPost("login")]
+        public ActionResult<User> Login(UserDto request)
+        {
+            if (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+            {
+                return Ok(user);
+            }
+
+            return Unauthorized();
+        }
+
+        [HttpGet("test")]
+        public ActionResult<string> Test()
+        {
+            return Ok("Test");
+        }
     }
 }
