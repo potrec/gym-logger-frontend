@@ -2,6 +2,10 @@
 using gym_logger_backend.Models.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace gym_logger_backend.Controllers
 {
@@ -10,6 +14,12 @@ namespace gym_logger_backend.Controllers
     public class AuthController : ControllerBase
     {
         public static User user = new User();
+        private readonly IConfiguration _config;
+
+        public AuthController(IConfiguration config)
+        {
+            _config = config;
+        }
 
         [HttpPost("register")]
         public ActionResult<User> Register(UserDto request)
@@ -26,16 +36,36 @@ namespace gym_logger_backend.Controllers
         {
             if (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
-                return Ok(user);
+                string token = CreateToken(user);
+                return Ok(token);
             }
 
             return Unauthorized();
         }
 
-        [HttpGet("test")]
-        public ActionResult<string> Test()
+
+        private string CreateToken(User user) 
         {
-            return Ok("Test");
+            List<Claim> claims = new List<Claim> {
+                new Claim(ClaimTypes.Name, user.UserName)
+            };
+
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value!));
+
+            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
+
+            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(claims),
+                Expires = DateTime.Now.AddDays(1),
+                SigningCredentials = creds
+            };
+
+            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
+
+            return tokenHandler.WriteToken(token);
+
         }
     }
 }
