@@ -13,7 +13,7 @@ namespace gym_logger_backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        public static User user = new User();
+        private static User user = new ();
         private readonly IConfiguration _config;
 
         public AuthController(IConfiguration config)
@@ -24,9 +24,11 @@ namespace gym_logger_backend.Controllers
         [HttpPost("register")]
         public ActionResult<User> Register(UserDto request)
         {
+
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
             user.UserName = request.UserName;
             user.PasswordHash = passwordHash;
+            user.Email = request.Email;
 
             return Ok(user);
         }

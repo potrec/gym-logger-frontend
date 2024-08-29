@@ -1,10 +1,18 @@
-﻿namespace gym_logger_backend.Models.User
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace gym_logger_backend.Models.User
 {
     public class User
     {
         public int Id { get; set; }
-        public string Email { get; set; }
-        public string UserName { get; set; } = string.Empty;
-        public string PasswordHash { get; set; } = string.Empty;
+        public required string Email { get; set; }
+        public required string UserName { get; set; }
+        public required string PasswordHash { get; set; }
+        public UserDetails UserDetails { get; set; } = new UserDetails();
+
+        [SetsRequiredMembers]
+        public User()
+        {
+        }
     }
 }
