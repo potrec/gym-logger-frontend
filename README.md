@@ -8,5 +8,5 @@ The aim is to create an app that allows you to measure your physical activity in
 ## Planned features:
 - Record of your body measurements
 - Record of your workouts (time, type of exercise)
-- Generation of an optimal training plan
+- Creation of an optimal training plan for you
 - Record of your calorie intake (food record)
