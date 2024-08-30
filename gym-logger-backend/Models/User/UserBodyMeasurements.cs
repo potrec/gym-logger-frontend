@@ -4,7 +4,7 @@
     {
         public int Id { get; set; }
         public int UserId { get; set; }
-        public User? User { get; set; }
+        public User User { get; set; } = null!;
         public double Weight { get; set; } = 0.0;
         public double Height { get; set; } = 0.0;
         public double BodyFatPercentage { get; set; } = 0.0;

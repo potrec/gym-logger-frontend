@@ -1,7 +1,9 @@
 ﻿using BCrypt.Net;
+using gym_logger_backend.Data;
 using gym_logger_backend.Models.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -15,22 +17,50 @@ namespace gym_logger_backend.Controllers
     {
         private static User user = new ();
         private readonly IConfiguration _config;
+        private readonly ApplicationDBContext _context;
 
-        public AuthController(IConfiguration config)
+        public AuthController(IConfiguration config, ApplicationDBContext context)
         {
             _config = config;
+            _context = context;
         }
 
         [HttpPost("register")]
-        public ActionResult<User> Register(UserDto request)
+        public async Task<ActionResult<User>> Register(UserDto request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (await _context.Users.AnyAsync(u => u.UserName == request.UserName || u.Email == request.Email))
+            {
+                return BadRequest("Username or email already exists");
+            }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
-            user.UserName = request.UserName;
-            user.PasswordHash = passwordHash;
-            user.Email = request.Email;
 
-            return Ok(user);
+            User user = new User
+            {
+                UserName = request.UserName,
+                PasswordHash = passwordHash,
+                Email = request.Email,
+                UserDetails = new UserDetails
+                {
+                    FirstName = request.FirstName,
+                    LastName = request.LastName,
+                    DateOfBirth = request.DateOfBirth,
+                    Gender = request.Gender,
+                    Status = 1,
+                }
+            };
+
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
+
+            string token = CreateToken(user);
+
+            return CreatedAtAction(nameof(Register), new { id = user.Id}, new {token} );
         }
 
         [HttpPost("login")]

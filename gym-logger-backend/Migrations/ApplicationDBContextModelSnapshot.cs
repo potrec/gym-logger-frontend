@@ -47,6 +47,75 @@ namespace gym_logger_backend.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("gym_logger_backend.Models.User.UserBodyMeasurements", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<double>("BodyFatPercentage")
+                        .HasColumnType("float");
+
+                    b.Property<double>("BodyMassIndex")
+                        .HasColumnType("float");
+
+                    b.Property<double>("ChestCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<double>("Height")
+                        .HasColumnType("float");
+
+                    b.Property<double>("HipCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LeanBodyMass")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LeftArmCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LeftCalfCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("LeftThighCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("NeckCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RightArmCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RightCalfCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("RightThighCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("WaistCircumference")
+                        .HasColumnType("float");
+
+                    b.Property<double>("Weight")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserBodyMeasurements");
+                });
+
             modelBuilder.Entity("gym_logger_backend.Models.User.UserDetails", b =>
                 {
                     b.Property<int>("Id")
@@ -62,8 +131,8 @@ namespace gym_logger_backend.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Height")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -75,15 +144,23 @@ namespace gym_logger_backend.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Weight")
-                        .HasColumnType("decimal(18,2)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("UserId")
                         .IsUnique();
 
                     b.ToTable("UserDetails");
+                });
+
+            modelBuilder.Entity("gym_logger_backend.Models.User.UserBodyMeasurements", b =>
+                {
+                    b.HasOne("gym_logger_backend.Models.User.User", "User")
+                        .WithMany("UserBodyMeasurements")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("gym_logger_backend.Models.User.UserDetails", b =>
@@ -99,6 +176,8 @@ namespace gym_logger_backend.Migrations
 
             modelBuilder.Entity("gym_logger_backend.Models.User.User", b =>
                 {
+                    b.Navigation("UserBodyMeasurements");
+
                     b.Navigation("UserDetails")
                         .IsRequired();
                 });
