@@ -8,7 +8,7 @@
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
         public DateTime DateOfBirth { get; set; } = DateTime.MinValue;
-        public Gender Gender { get; set; } = Gender.Other;
+        public int Gender { get; set; } = 0;
         public int Status { get; set; } = 0;
     }
 }

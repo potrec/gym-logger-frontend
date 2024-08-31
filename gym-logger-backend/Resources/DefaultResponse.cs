@@ -1,44 +1,40 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace gym_logger_backend.Resources
 {
+    public class JsonResponse
+    {
+        public dynamic? Data { get; set; }
+        public bool Success { get; set; }
+        public int ResponseCode { get; set; }
+        public string? ResponseMessage { get; set; }
+    }
     public class DefaultResponse<T>
     {
-        private T Data { get; set; }
-        private bool Success { get; set; }
-        private int ResponseCode { get; set; }
-        private string ResponseMessage { get; set; }
+        private JsonResponse JsonResponse { get; set; }
 
         public DefaultResponse()
         {
-            Data = default!;
-            Success = false;
-            ResponseCode = 0;
-            ResponseMessage = string.Empty;
+            JsonResponse = new();
+            JsonResponse.Success = false;
+            JsonResponse.ResponseCode = 0;
+            JsonResponse.ResponseMessage = string.Empty;
+            JsonResponse.Data = string.Empty;
         }
 
         public DefaultResponse(T data, bool success, int responseCode, string responseMessage)
         {
-            Data = data;
-            Success = success;
-            ResponseCode = responseCode;
-            ResponseMessage = responseMessage;
+            JsonResponse = new();
+            JsonResponse.Success = success;
+            JsonResponse.ResponseCode = responseCode;
+            JsonResponse.ResponseMessage = responseMessage;
+            JsonResponse.Data = data;
         }
 
         public IActionResult GetData()
         {
-            return new ContentResult
-            {
-                Content = JsonSerializer.Serialize(this, new JsonSerializerOptions
-                {
-                    WriteIndented = true,
-                    Converters = { new JsonStringEnumConverter() }
-                }),
-                ContentType = "application/json",
-                StatusCode = ResponseCode
+            return new JsonResult(JsonResponse) {
+                StatusCode = JsonResponse.ResponseCode
             };
         }
     }
