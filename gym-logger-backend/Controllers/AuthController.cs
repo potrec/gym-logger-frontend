@@ -1,15 +1,10 @@
-﻿using BCrypt.Net;
-using gym_logger_backend.Data;
+﻿using gym_logger_backend.Data;
 using gym_logger_backend.Models.User;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using gym_logger_backend.Service;
 using gym_logger_backend.Resources;
+using gym_logger_backend.Dto.User;
 
 namespace gym_logger_backend.Controllers
 {
@@ -27,7 +22,7 @@ namespace gym_logger_backend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserDto request)
+        public async Task<ActionResult<User>> Register(UserRegisterDto request)
         {
             if (!ModelState.IsValid)
             {
@@ -65,9 +60,9 @@ namespace gym_logger_backend.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserDto request)
+        public IActionResult Login(UserLoginDto request)
         {
-            User user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName);
+            User user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
             if (user == null)
             {
                 return new DefaultResponse<string>("data", false, 404, "User not found").GetData();
