@@ -8,6 +8,8 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using gym_logger_backend.Service;
+using gym_logger_backend.Resources;
 
 namespace gym_logger_backend.Controllers
 {
@@ -15,14 +17,13 @@ namespace gym_logger_backend.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private static User user = new ();
-        private readonly IConfiguration _config;
         private readonly ApplicationDBContext _context;
+        private readonly AuthService _authService;
 
-        public AuthController(IConfiguration config, ApplicationDBContext context)
+        public AuthController(ApplicationDBContext context, AuthService authService)
         {
-            _config = config;
             _context = context;
+            _authService = authService;
         }
 
         [HttpPost("register")]
@@ -58,46 +59,26 @@ namespace gym_logger_backend.Controllers
             await _context.Users.AddAsync(user);
             await _context.SaveChangesAsync();
 
-            string token = CreateToken(user);
+            string token = _authService.CreateToken(user);
 
-            return CreatedAtAction(nameof(Register), new { id = user.Id}, new {token} );
+            return CreatedAtAction(nameof(Register), new { id = user.Id }, new { token });
         }
 
         [HttpPost("login")]
-        public ActionResult<User> Login(UserDto request)
+        public IActionResult Login(UserDto request)
         {
+            User user = _context.Users.FirstOrDefault(u => u.UserName == request.UserName);
+            if (user == null)
+            {
+                return new DefaultResponse<string>("data", false, 404, "User not found").GetData();
+            }
             if (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
             {
-                string token = CreateToken(user);
-                return Ok(token);
+                string token = _authService.CreateToken(user);
+                return new DefaultResponse<string>(token, false, 200, "Login successful").GetData();
             }
-
-            return Unauthorized();
+            return new DefaultResponse<string>("data", false, 401, "Invalid password").GetData();
         }
 
-
-        private string CreateToken(User user) 
-        {
-            List<Claim> claims = new List<Claim> {
-                new Claim(ClaimTypes.Name, user.UserName)
-            };
-
-            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config.GetSection("AppSettings:Token").Value!));
-
-            SigningCredentials creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
-
-            SecurityTokenDescriptor tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
-                SigningCredentials = creds
-            };
-
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
-            SecurityToken token = tokenHandler.CreateToken(tokenDescriptor);
-
-            return tokenHandler.WriteToken(token);
-
-        }
     }
 }

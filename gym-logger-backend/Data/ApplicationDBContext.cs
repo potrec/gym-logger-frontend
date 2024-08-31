@@ -20,6 +20,13 @@ namespace gym_logger_backend.Data
                 .HasOne(u => u.UserDetails)
                 .WithOne(ud => ud.User)
                 .HasForeignKey<UserDetails>(ud => ud.UserId);
+            modelBuilder.Entity<UserDetails>()
+                .HasOne(ud => ud.User)
+                .WithOne(u => u.UserDetails)
+                .HasForeignKey<UserDetails>(ud => ud.UserId);
+            modelBuilder.Entity<UserDetails>()
+                .HasIndex(ud => ud.UserId)
+                .IsUnique();
         }
     }
 }
