@@ -1,5 +1,7 @@
 using gym_logger_backend.Data;
+using gym_logger_backend.Repository;
 using gym_logger_backend.Service;
+using gym_logger_backend.Validators.User;
 using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddTransient<AuthService>();
+builder.Services.AddTransient<UserLoginValidator>().AddTransient<AuthService>().AddTransient<IUserRepository, UserRepository>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

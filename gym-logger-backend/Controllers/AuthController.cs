@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using gym_logger_backend.Service;
 using gym_logger_backend.Resources;
 using gym_logger_backend.Dto.User;
+using gym_logger_backend.Validators.User;
+using gym_logger_backend.Repository;
 
 namespace gym_logger_backend.Controllers
 {
@@ -14,11 +16,15 @@ namespace gym_logger_backend.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly AuthService _authService;
+        private readonly UserLoginValidator _userValidator;
+        private readonly IUserRepository _userRepository;
 
-        public AuthController(ApplicationDBContext context, AuthService authService)
+        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userValidator, IUserRepository userRepository)
         {
             _context = context;
             _authService = authService;
+            _userValidator = userValidator;
+            _userRepository = userRepository;
         }
 
         [HttpPost("register")]
@@ -60,9 +66,14 @@ namespace gym_logger_backend.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserLoginDto request)
+        public async Task<IActionResult> Login(UserLoginDto request)
         {
-            User user = _context.Users.FirstOrDefault(u => u.Email == request.Email);
+            var validationResult = await _userValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
+            {
+                return BadRequest(validationResult.Errors);
+            }
+            User user = await _userRepository.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
                 return new DefaultResponse<string>("data", false, 404, "User not found").GetData();
