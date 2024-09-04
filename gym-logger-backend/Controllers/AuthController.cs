@@ -35,11 +35,6 @@ namespace gym_logger_backend.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (await _context.Users.AnyAsync(u => u.UserName == request.UserName || u.Email == request.Email))
-            {
-                return BadRequest("Username or email already exists");
-            }
-
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
 
             User user = new User
@@ -78,7 +73,8 @@ namespace gym_logger_backend.Controllers
             {
                 return new DefaultResponse<string>("data", false, 404, "User not found").GetData();
             }
-            if (BCrypt.Net.BCrypt.Verify(request.Password, user.PasswordHash))
+
+            if (_userRepository.IsPasswordCorrect(request.Password, user))
             {
                 string token = _authService.CreateToken(user);
                 return new DefaultResponse<string>(token, false, 200, "Login successful").GetData();
