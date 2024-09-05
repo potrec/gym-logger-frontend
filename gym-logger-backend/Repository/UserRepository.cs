@@ -11,6 +11,7 @@ namespace gym_logger_backend.Repository
         Task<User> IsEmailUniqueAsync(string email);
         Task<User> IsUserNameUniqueAsync(string userName);
         bool IsPasswordCorrect(string password, User user);
+        Task<List<User>> GetUsersAsync();
     }
     public class UserRepository : IUserRepository
     {
@@ -37,6 +38,9 @@ namespace gym_logger_backend.Repository
 
             return BCrypt.Net.BCrypt.Verify(password, user.PasswordHash);
         }
-
+        public async Task<List<User>> GetUsersAsync()
+        {
+            return _context.Users.ToList();
+        }
     }
 }

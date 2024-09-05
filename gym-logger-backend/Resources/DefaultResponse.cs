@@ -4,7 +4,7 @@ namespace gym_logger_backend.Resources
 {
     public class JsonResponse
     {
-        public dynamic? Data { get; set; }
+        public object? Data { get; set; }
         public bool Success { get; set; }
         public int ResponseCode { get; set; }
         public string? ResponseMessage { get; set; }
@@ -19,7 +19,7 @@ namespace gym_logger_backend.Resources
             JsonResponse.Success = false;
             JsonResponse.ResponseCode = 0;
             JsonResponse.ResponseMessage = string.Empty;
-            JsonResponse.Data = string.Empty;
+            JsonResponse.Data = null;
         }
 
         public DefaultResponse(T data, bool success, int responseCode, string responseMessage)

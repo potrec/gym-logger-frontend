@@ -11,6 +11,7 @@ namespace gym_logger_backend.Validators.User
             RuleFor(x => x.Email).EmailAddress().WithMessage("Email is not valid");
             RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required");
             RuleFor(x => x.Password).MinimumLength(6).WithMessage("Password must be at least 8 characters");
+
         }
     }
 }

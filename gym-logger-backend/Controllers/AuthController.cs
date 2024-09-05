@@ -7,6 +7,7 @@ using gym_logger_backend.Resources;
 using gym_logger_backend.Dto.User;
 using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
+using gym_logger_backend.Models.Auth;
 
 namespace gym_logger_backend.Controllers
 {
@@ -66,20 +67,27 @@ namespace gym_logger_backend.Controllers
             var validationResult = await _userValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-                return BadRequest(validationResult.Errors);
+                return new DefaultResponse<List<string>>(validationResult.Errors.Select(e => e.ErrorMessage).ToList(), false, 400, "Validation failed").GetData();
             }
+
             User user = await _userRepository.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
-                return new DefaultResponse<string>("data", false, 404, "User not found").GetData();
+                return new DefaultResponse<string>("User not found", false, 404, "User not found").GetData();
             }
 
             if (_userRepository.IsPasswordCorrect(request.Password, user))
             {
                 string token = _authService.CreateToken(user);
-                return new DefaultResponse<string>(token, false, 200, "Login successful").GetData();
+                return new DefaultResponse<string>(token, true, 200, "Login successful").GetData();
             }
-            return new DefaultResponse<string>("data", false, 401, "Invalid password").GetData();
+            return new DefaultResponse<string>("Invalid password", false, 401, "Invalid password").GetData();
+        }
+
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            return new DefaultResponse<List<User>>(_userRepository.GetUsersAsync().Result, false, 200, "Login successful").GetData();
         }
 
     }
