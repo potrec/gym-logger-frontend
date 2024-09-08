@@ -4,7 +4,7 @@ using gym_logger_backend.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace gym_logger_backend.Controllers
+namespace gym_logger_backend.Controllers.UserControllers
 {
     [ApiController]
     [Route("api/[controller]")]
@@ -20,14 +20,17 @@ namespace gym_logger_backend.Controllers
         [HttpGet("profile")]
         public IActionResult GetProfile()
         {
-            return Ok("profile");
+            string userEmail = User.Identity.Name;
+            User user = _userRepository.GetUserByEmailAsync(userEmail).Result;
+
+            if (user == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return Ok(user);
         }
 
-        [HttpGet("users")]
-        public async Task<IActionResult> GetUsers()
-        {
-            var users = await _userRepository.GetUsersAsync();
-            return new DefaultResponse<List<User>>(users, false, 200, "Login successful").GetData();
-        }
+
     }
 }

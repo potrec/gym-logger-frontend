@@ -1,16 +1,13 @@
 ﻿using gym_logger_backend.Data;
 using gym_logger_backend.Models.User;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using gym_logger_backend.Service;
 using gym_logger_backend.Resources;
 using gym_logger_backend.Dto.User;
 using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
-using gym_logger_backend.Models.Auth;
-using Microsoft.AspNetCore.Authorization;
 
-namespace gym_logger_backend.Controllers
+namespace gym_logger_backend.Controllers.Auth
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -68,6 +65,7 @@ namespace gym_logger_backend.Controllers
             var validationResult = await _userValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
+      
                 return new DefaultResponse<List<string>>(validationResult.Errors.Select(e => e.ErrorMessage).ToList(), false, 400, "Validation failed").GetData();
             }
 
