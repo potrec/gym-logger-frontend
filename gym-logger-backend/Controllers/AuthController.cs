@@ -8,6 +8,7 @@ using gym_logger_backend.Dto.User;
 using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
 using gym_logger_backend.Models.Auth;
+using Microsoft.AspNetCore.Authorization;
 
 namespace gym_logger_backend.Controllers
 {
@@ -82,12 +83,6 @@ namespace gym_logger_backend.Controllers
                 return new DefaultResponse<string>(token, true, 200, "Login successful").GetData();
             }
             return new DefaultResponse<string>("Invalid password", false, 401, "Invalid password").GetData();
-        }
-
-        [HttpGet("users")]
-        public async Task<IActionResult> GetUsers()
-        {
-            return new DefaultResponse<List<User>>(_userRepository.GetUsersAsync().Result, false, 200, "Login successful").GetData();
         }
 
     }
