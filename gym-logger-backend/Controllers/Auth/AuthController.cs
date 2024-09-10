@@ -6,6 +6,7 @@ using gym_logger_backend.Resources;
 using gym_logger_backend.Dto.User;
 using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
+using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace gym_logger_backend.Controllers.Auth
 {
@@ -17,13 +18,15 @@ namespace gym_logger_backend.Controllers.Auth
         private readonly AuthService _authService;
         private readonly UserLoginValidator _userValidator;
         private readonly IUserRepository _userRepository;
+        private readonly ILogger<AuthController> _logger;
 
-        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userValidator, IUserRepository userRepository)
+        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userValidator, IUserRepository userRepository, ILogger<AuthController> logger)
         {
             _context = context;
             _authService = authService;
             _userValidator = userValidator;
             _userRepository = userRepository;
+            _logger = logger;
         }
 
         [HttpPost("register")]
@@ -65,8 +68,8 @@ namespace gym_logger_backend.Controllers.Auth
             var validationResult = await _userValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
-      
-                return new DefaultResponse<List<string>>(validationResult.Errors.Select(e => e.ErrorMessage).ToList(), false, 400, "Validation failed").GetData();
+                var errorDictionary = validationResult.Errors.ToDictionary(e => e.PropertyName, e => new[] { e.ErrorMessage });
+                return new DefaultResponse<Dictionary<string, string[]>>(errorDictionary, false, 400, "Validation failed").GetData();
             }
 
             User user = await _userRepository.GetUserByEmailAsync(request.Email);
