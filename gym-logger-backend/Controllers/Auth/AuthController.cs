@@ -7,6 +7,7 @@ using gym_logger_backend.Dto.User;
 using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
 using Microsoft.AspNetCore.Mvc.Routing;
+using FluentValidation;
 
 namespace gym_logger_backend.Controllers.Auth
 {
@@ -16,25 +17,29 @@ namespace gym_logger_backend.Controllers.Auth
     {
         private readonly ApplicationDBContext _context;
         private readonly AuthService _authService;
-        private readonly UserLoginValidator _userValidator;
+        private readonly UserLoginValidator _userloginValidator;
+        private readonly UserRegisterValidation _userRegisterValidator;
         private readonly IUserRepository _userRepository;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userValidator, IUserRepository userRepository, ILogger<AuthController> logger)
+        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userLoginValidator, IUserRepository userRepository, ILogger<AuthController> logger, UserRegisterValidation userRegisterValidator)
         {
             _context = context;
             _authService = authService;
-            _userValidator = userValidator;
+            _userloginValidator = userLoginValidator;
             _userRepository = userRepository;
             _logger = logger;
+            _userRegisterValidator = userRegisterValidator;
         }
 
         [HttpPost("register")]
-        public async Task<ActionResult<User>> Register(UserRegisterDto request)
+        public async Task<IActionResult> Register(UserRegisterDto request)
         {
-            if (!ModelState.IsValid)
+            var validationResult = await _userRegisterValidator.ValidateAsync(request);
+            if (!validationResult.IsValid)
             {
-                return BadRequest(ModelState);
+                var errorDictionary = validationResult.Errors.ToDictionary(e => e.PropertyName, e => new[] { e.ErrorMessage });
+                return new DefaultResponse<Dictionary<string, string[]>>(errorDictionary, false, 400, "Validation failed").GetData();
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
@@ -65,7 +70,7 @@ namespace gym_logger_backend.Controllers.Auth
         [HttpPost("login")]
         public async Task<IActionResult> Login(UserLoginDto request)
         {
-            var validationResult = await _userValidator.ValidateAsync(request);
+            var validationResult = await _userloginValidator.ValidateAsync(request);
             if (!validationResult.IsValid)
             {
                 var errorDictionary = validationResult.Errors.ToDictionary(e => e.PropertyName, e => new[] { e.ErrorMessage });

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using gym_logger_backend.Dto.User;
+using System.Diagnostics.CodeAnalysis;
 
 namespace gym_logger_backend.Models.User
 {

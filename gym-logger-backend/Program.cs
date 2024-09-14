@@ -17,42 +17,11 @@ builder.Services.AddLogging(logging =>
 // Add services to the container.
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen(c =>
-//{
-//    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API Name", Version = "v1" });
-
-//    // Add JWT bearer scheme
-//    c.AddSecurityDefinition("bearer", new OpenApiSecurityScheme
-//    {
-//        Name = "Authorization",
-//        Type = SecuritySchemeType.Http,
-//        Scheme = "bearer",
-//        BearerFormat = "JWT",
-//        In = ParameterLocation.Header,
-//        Description = "JWT Authorization header using the Bearer scheme."
-//    });
-
-//    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-//    {
-//        {
-//            new OpenApiSecurityScheme
-//            {
-//                Reference = new OpenApiReference
-//                {
-//                    Type = ReferenceType.SecurityScheme,
-//                    Id = "bearer"
-//                }
-//            },
-//            new string[] {}
-//        }
-//    });
-//});
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
-builder.Services.AddTransient<UserLoginValidator>().AddTransient<AuthService>().AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<UserLoginValidator>().AddTransient<AuthService>().AddTransient<IUserRepository, UserRepository>().AddTransient<UserRegisterValidation>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
