@@ -12,6 +12,7 @@ namespace gym_logger_backend.Repository
         Task<User> IsUserNameUniqueAsync(string userName);
         bool IsPasswordCorrect(string password, User user);
         Task<List<User>> GetUsersAsync();
+        Task<User> GetUserAsync(int id);
     }
     public class UserRepository : IUserRepository
     {
@@ -41,6 +42,10 @@ namespace gym_logger_backend.Repository
         public async Task<List<User>> GetUsersAsync()
         {
             return _context.Users.ToList();
+        }
+        public async Task<User> GetUserAsync(int id)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
     }
 }

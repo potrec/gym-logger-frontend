@@ -4,10 +4,11 @@ namespace gym_logger_backend.Resources
 {
     public class JsonResponse
     {
-        public object? Data { get; set; }
+
         public bool Success { get; set; }
         public int ResponseCode { get; set; }
         public string? ResponseMessage { get; set; }
+        public object? Data { get; set; }
     }
     public class DefaultResponse<T>
     {
