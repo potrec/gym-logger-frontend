@@ -18,11 +18,11 @@ namespace gym_logger_backend.Controllers.Auth
         private readonly ApplicationDBContext _context;
         private readonly AuthService _authService;
         private readonly UserLoginValidator _userloginValidator;
-        private readonly UserRegisterValidation _userRegisterValidator;
+        private readonly UserRegisterValidator _userRegisterValidator;
         private readonly IUserRepository _userRepository;
         private readonly ILogger<AuthController> _logger;
 
-        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userLoginValidator, IUserRepository userRepository, ILogger<AuthController> logger, UserRegisterValidation userRegisterValidator)
+        public AuthController(ApplicationDBContext context, AuthService authService, UserLoginValidator userLoginValidator, IUserRepository userRepository, ILogger<AuthController> logger, UserRegisterValidator userRegisterValidator)
         {
             _context = context;
             _authService = authService;

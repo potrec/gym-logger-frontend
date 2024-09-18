@@ -4,29 +4,33 @@ namespace gym_logger_backend.Dto.User
 {
     public class UserProfileDto
     {
-        public int Id { get; set; }
+        public int Id { get; } 
         public string Email { get; set; }
         public string UserName { get; set; }
+        public string PasswordHash { get; set; }
         public UserDetailsDto UserDetails { get; set; }
         public List<UserBodyMeasurementDto> UserBodyMeasurements { get; set; }
 
-        public UserProfileDto(UserModel user)
+        public static UserProfileDto FromUser(UserModel user)
         {
-            Id = user.Id;
-            Email = user.Email;
-            UserName = user.UserName;
-            UserDetails = new UserDetailsDto
+            return new UserProfileDto
             {
-                Id = user.UserDetails.Id,
-                FirstName = user.UserDetails.FirstName,
-                LastName = user.UserDetails.LastName,
-                DateOfBirth = user.UserDetails.DateOfBirth,
-                Gender = user.UserDetails.Gender,
-                Status = user.UserDetails.Status
+                Email = user.Email,
+                UserName = user.UserName,
+                PasswordHash = user.PasswordHash,
+                UserDetails = new UserDetailsDto
+                {
+                    Id = user.UserDetails.Id,
+                    FirstName = user.UserDetails.FirstName,
+                    LastName = user.UserDetails.LastName,
+                    DateOfBirth = user.UserDetails.DateOfBirth,
+                    Gender = user.UserDetails.Gender,
+                    Status = user.UserDetails.Status
+                },
+                UserBodyMeasurements = user.UserBodyMeasurements.Select(ubm => new UserBodyMeasurementDto
+                {
+                }).ToList()
             };
-            UserBodyMeasurements = user.UserBodyMeasurements.Select(ubm => new UserBodyMeasurementDto
-            {
-            }).ToList();
         }
 
         public class UserDetailsDto

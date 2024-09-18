@@ -4,10 +4,10 @@ using gym_logger_backend.Repository;
 
 namespace gym_logger_backend.Validators.User
 {
-    public class UserRegisterValidation : AbstractValidator<UserRegisterDto>
+    public class UserRegisterValidator : AbstractValidator<UserRegisterDto>
     {
         private readonly IUserRepository _userRepository;
-        public UserRegisterValidation() {
+        public UserRegisterValidator() {
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Username is required");
             RuleFor(x => x.UserName).MustAsync(async (userName, _) =>
             {
