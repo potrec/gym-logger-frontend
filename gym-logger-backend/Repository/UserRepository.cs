@@ -17,6 +17,7 @@ namespace gym_logger_backend.Repository
         Task<User> GetUserAsync(int id);
         Task<User> GetAuthUser(ClaimsPrincipal claim);
         Task<User> SaveUserAsync(User user);
+        Task<User> UpdateUserAsync(User user);
     }
     public class UserRepository : IUserRepository
     {
@@ -70,5 +71,12 @@ namespace gym_logger_backend.Repository
             await _context.SaveChangesAsync();
             return user;
         }
+        public async Task<User> UpdateUserAsync(User user)
+        {
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
     }
 }

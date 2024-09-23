@@ -1,5 +1,5 @@
 ﻿using gym_logger_backend.Dto.User;
-using gym_logger_backend.Models.User;
+using UserModel = gym_logger_backend.Models.User.User;
 using gym_logger_backend.Repository;
 using gym_logger_backend.Resources;
 using gym_logger_backend.Validators.User;
@@ -46,13 +46,9 @@ namespace gym_logger_backend.Controllers.UserControllers
             if (user == null) {
                 return new DefaultResponse<string>("User not found", false, 404, "User not found").GetData();
             }
-            // Update user from request
-            user.UserName = request.UserName;
-            user.Email = request.Email;
-            user.UserDetails.FirstName = request.UserDetails.FirstName;
-            user.UserDetails.LastName = request.UserDetails.LastName;
-            user.UserDetails.DateOfBirth = request.UserDetails.DateOfBirth;
-            //....
+            user = UserModel.FromUserDto(request);
+            await _userRepository.UpdateUserAsync(user);
+            return new DefaultResponse<UserProfileDto>(UserProfileDto.FromUser(user), true, 200, "User updated").GetData();
         }
     }
 }
