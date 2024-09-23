@@ -35,11 +35,12 @@ namespace gym_logger_backend.Controllers.UserControllers
         }
 
         [HttpPut("me")]
-        public async Task<IActionResult> UpdateProfile(UserProfileDto request) 
-        {
+        public async Task<IActionResult> UpdateProfile([FromBody] UserProfileDto request) 
+        { 
             var validationResult = await new UserProfileValidator().ValidateAsync(request);
             if (!validationResult.IsValid) {
-                return new DefaultResponse<string>("Validation failed", false, 400, "Validation failed").GetData();
+                var errorDictionary = validationResult.Errors.ToDictionary(e => e.PropertyName, e => new[] { e.ErrorMessage });
+                return new DefaultResponse<Dictionary<string, string[]>>(errorDictionary, false, 400, "Validation failed").GetData();
             }
 
             var user = await _userRepository.GetAuthUser(User);
