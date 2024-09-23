@@ -1,0 +1,39 @@
+version: "3"
+services:
+  db:
+    image: mysql:latest
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: Admin
+      MYSQL_DATABASE: gym_logger
+      MYSQL_USER: Admin
+      MYSQL_PASSWORD: Admin
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./gym-logger-backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "5000:80"
+    environment:
+      ConnectionStrings__DefaultConnection: Server=db;Database=gym_logger;User Id=Admin;Password=Admin;
+    depends_on:
+      - db
+
+  # frontend:
+  #   build:
+  #     context: ./gym-logger-frontend
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   ports:
+  #     - "8080:80"
+  #   environment:
+  #     VUE_APP_API_URL: http://localhost:5000/api
+  #   depends_on:
+  #     - backend
+
+volumes:
+  mysql_data:
