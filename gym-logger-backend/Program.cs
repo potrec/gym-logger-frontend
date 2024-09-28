@@ -7,7 +7,7 @@ using gym_logger_backend.Validators.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.OpenApi.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging(logging =>
 {
@@ -15,15 +15,18 @@ builder.Services.AddLogging(logging =>
     logging.AddDebug();
 });
 // Add services to the container.
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddTransient<UserLoginValidator>().AddTransient<AuthService>().AddTransient<IUserRepository, UserRepository>().AddTransient<UserRegisterValidator>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-
+//builder.WebHost.ConfigureKestrel(options =>
+//{
+//    options.ListenAnyIP(5000);
+//    options.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps());
+//});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {

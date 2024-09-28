@@ -8,6 +8,7 @@ using gym_logger_backend.Validators.User;
 using gym_logger_backend.Repository;
 using Microsoft.AspNetCore.Mvc.Routing;
 using FluentValidation;
+using gym_logger_backend.Helpers;
 
 namespace gym_logger_backend.Controllers.Auth
 {
@@ -43,6 +44,7 @@ namespace gym_logger_backend.Controllers.Auth
             }
 
             string passwordHash = BCrypt.Net.BCrypt.HashPassword(request.Password);
+            DateTime dateTime = DateTimeHelper.ParseDate(request.DateOfBirth);
 
             User user = new User
             {
@@ -53,7 +55,7 @@ namespace gym_logger_backend.Controllers.Auth
                 {
                     FirstName = request.FirstName,
                     LastName = request.LastName,
-                    DateOfBirth = request.DateOfBirth,
+                    DateOfBirth = dateTime,
                     Gender = request.Gender,
                     Status = 1,
                 }

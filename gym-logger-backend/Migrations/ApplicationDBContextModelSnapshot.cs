@@ -18,9 +18,9 @@ namespace gym_logger_backend.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.8")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            MySqlModelBuilderExtensions.AutoIncrementColumns(modelBuilder);
 
             modelBuilder.Entity("gym_logger_backend.Models.User.User", b =>
                 {
@@ -28,21 +28,27 @@ namespace gym_logger_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("UserName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("varchar(255)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("UserName")
+                        .IsUnique();
 
                     b.ToTable("Users");
                 });
@@ -53,49 +59,49 @@ namespace gym_logger_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<double>("BodyFatPercentage")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("BodyMassIndex")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("ChestCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<double>("Height")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("HipCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("LeanBodyMass")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("LeftArmCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("LeftCalfCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("LeftThighCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("NeckCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("RightArmCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("RightCalfCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("RightThighCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
@@ -104,10 +110,10 @@ namespace gym_logger_backend.Migrations
                         .HasColumnType("int");
 
                     b.Property<double>("WaistCircumference")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.Property<double>("Weight")
-                        .HasColumnType("float");
+                        .HasColumnType("double");
 
                     b.HasKey("Id");
 
@@ -122,21 +128,21 @@ namespace gym_logger_backend.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");
