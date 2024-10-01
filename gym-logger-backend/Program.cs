@@ -7,6 +7,7 @@ using gym_logger_backend.Validators.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using gym_logger_backend.Migrations;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddLogging(logging =>
@@ -18,15 +19,10 @@ builder.Services.AddLogging(logging =>
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<ApplicationDBContext>(options => {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("Database"));
 });
 builder.Services.AddTransient<UserLoginValidator>().AddTransient<AuthService>().AddTransient<IUserRepository, UserRepository>().AddTransient<UserRegisterValidator>();
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
-//builder.WebHost.ConfigureKestrel(options =>
-//{
-//    options.ListenAnyIP(5000);
-//    options.ListenAnyIP(5001, listenOptions => listenOptions.UseHttps());
-//});
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -50,8 +46,7 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    //app.UseSwagger();
-    //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Your API v1"));
+    app.ApplyMigrations();
 }
 
 app.UseHttpsRedirection();

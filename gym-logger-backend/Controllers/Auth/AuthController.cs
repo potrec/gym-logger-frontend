@@ -66,7 +66,7 @@ namespace gym_logger_backend.Controllers.Auth
 
             string token = _authService.CreateToken(user);
 
-            return CreatedAtAction(nameof(Register), new { id = user.Id }, new { token });
+            return new DefaultResponse<string>(token, true, 201, "User created").GetData();
         }
 
         [HttpPost("login")]

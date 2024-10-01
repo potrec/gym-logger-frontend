@@ -7,47 +7,45 @@ namespace gym_logger_backend.Data
 {
     public class ApplicationDBContext : DbContext
     {
-        public ApplicationDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
-        {
-            try
-            {
-                var databaseCreator = Database.GetService<IDatabaseCreator>() as RelationalDatabaseCreator;
-                if(databaseCreator != null)
-                {
-                    if(!databaseCreator.CanConnect()) databaseCreator.CreateTables();
-                    if(!databaseCreator.HasTables()) databaseCreator.CreateTables();
-                }
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-
-        }
-
         public DbSet<User> Users { get; set; }
         public DbSet<UserDetails> UserDetails { get; set; }
         public DbSet<UserBodyMeasurements> UserBodyMeasurements { get; set; }
+        private readonly ILogger<ApplicationDBContext> _logger;
+
+        public ApplicationDBContext(DbContextOptions<ApplicationDBContext> dbContextOptions, ILogger<ApplicationDBContext> logger): base(dbContextOptions)
+        {
+            _logger = logger;
+
+            try
+            {
+                if (Database.GetService<IDatabaseCreator>() is RelationalDatabaseCreator databaseCreator)
+                {
+                    if (!databaseCreator.HasTables())
+                    {
+                        _logger.LogInformation("No tables found, applying migrations...");
+                        Database.Migrate();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while initializing the database.");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>()
+                .HasMany(u => u.UserBodyMeasurements)
+                .WithOne(ub => ub.User)
+                .HasForeignKey(ub => ub.UserId);
+
             modelBuilder.Entity<User>()
                 .HasOne(u => u.UserDetails)
                 .WithOne(ud => ud.User)
                 .HasForeignKey<UserDetails>(ud => ud.UserId);
-            modelBuilder.Entity<UserDetails>()
-                .HasOne(ud => ud.User)
-                .WithOne(u => u.UserDetails)
-                .HasForeignKey<UserDetails>(ud => ud.UserId);
-            modelBuilder.Entity<UserDetails>()
-                .HasIndex(ud => ud.UserId)
-                .IsUnique();
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-            modelBuilder.Entity<User>()
-                .HasIndex(u => u.UserName)
-                .IsUnique();
         }
     }
 }
