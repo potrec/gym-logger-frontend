@@ -51,5 +51,12 @@ namespace gym_logger_backend.Controllers.UserControllers
             await _userRepository.UpdateUserAsync(user);
             return new DefaultResponse<UserProfileDto>(UserProfileDto.FromUser(user), true, 200, "User updated").GetData();
         }
+        [HttpGet("users")]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userRepository.GetUsers();
+            return new DefaultResponse<List<UserProfileDto>>(UserProfileDto.FromUsers(users), true, 200, "User updated").GetData();
+
+        }
     }
 }

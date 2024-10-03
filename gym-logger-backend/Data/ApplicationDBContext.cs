@@ -9,7 +9,7 @@ namespace gym_logger_backend.Data
     {
         public DbSet<User> Users { get; set; }
         public DbSet<UserDetails> UserDetails { get; set; }
-        public DbSet<UserBodyMeasurements> UserBodyMeasurements { get; set; }
+        public DbSet<UserBodyMeasurement> UserBodyMeasurements { get; set; }
         private readonly ILogger<ApplicationDBContext> _logger;
 
         public ApplicationDBContext(DbContextOptions<ApplicationDBContext> dbContextOptions, ILogger<ApplicationDBContext> logger): base(dbContextOptions)

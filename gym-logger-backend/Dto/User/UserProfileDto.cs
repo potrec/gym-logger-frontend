@@ -1,4 +1,5 @@
-﻿using UserModel = gym_logger_backend.Models.User.User;
+﻿using System.Net.NetworkInformation;
+using UserModel = gym_logger_backend.Models.User.User;
 
 namespace gym_logger_backend.Dto.User
 {
@@ -31,6 +32,10 @@ namespace gym_logger_backend.Dto.User
                 {
                 }).ToList()
             };
+        }
+        public static List<UserProfileDto> FromUsers(List<UserModel> users)
+        {
+            return users.Select(user => FromUser(user)).ToList();
         }
 
         public class UserDetailsDto

@@ -1,6 +1,6 @@
 ﻿namespace gym_logger_backend.Models.User
 {
-    public class UserBodyMeasurements
+    public class UserBodyMeasurement
     {
         public int Id { get; set; }
         public int UserId { get; set; }
