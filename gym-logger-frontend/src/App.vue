@@ -1,24 +1,17 @@
 <template>
-  <div>
-    <router-view />
+  <div class="flex h-screen">
+    <Sidebar />
+    <main class="w-full p-8">
+      <RouterView />
+    </main>
   </div>
 </template>
 
 <script setup lang="ts">
-import { onBeforeUnmount, onMounted } from 'vue'
-import { useThemeStore } from './store/themeStore'
+import Sidebar from '@/components/sidebar/Sidebar.vue'
+import { ref } from 'vue'
 
-const store = useThemeStore()
+const isOpen = ref(false)
 
-onMounted(() => {
-  document.body.classList.add(store.getCurrentTheme)
-})
-
-onBeforeUnmount(() => {
-  document.body.classList.remove(store.getCurrentTheme)
-})
+// You can add more functionality here if needed
 </script>
-
-<style scoped>
-@import './styles/theme.css';
-</style>

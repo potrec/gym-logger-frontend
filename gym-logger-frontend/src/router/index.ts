@@ -30,6 +30,31 @@ const routes = [
     path: '/component',
     name: 'component',
     component: () => import('@/views/ComponentTestView.vue')
+  },
+  {
+    path: '/dashboard',
+    name: 'dashboard',
+    component: () => import('@/views/DashboardView.vue')
+  },
+  {
+    path: '/dietplanning',
+    name: 'dietplanning',
+    component: () => import('@/views/DietPlanningView.vue')
+  },
+  {
+    path: '/workouts',
+    name: 'workouts',
+    component: () => import('@/views/WorkoutsView.vue')
+  },
+  {
+    path: '/support',
+    name: 'support',
+    component: () => import('@/views/SupportView.vue')
+  },
+  {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/views/SettingsView.vue')
   }
 ]
 

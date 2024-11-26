@@ -1,0 +1,98 @@
+{
+  "meal": [
+    {
+      "meal": "Breakfast",
+      "time": "08:00",
+      "food": [
+        {
+          "name": "Oatmeal",
+          "calories": "150",
+          "protein": "5g",
+          "carbs": "25g",
+          "fats": "2g"
+        },
+        {
+          "name": "Banana",
+          "calories": "100",
+          "protein": "1g",
+          "carbs": "27g",
+          "fats": "0g"
+        }
+      ]
+    },
+    {
+      "meal": "Lunch",
+      "time": "12:00",
+      "food": [
+        {
+          "name": "Grilled Chicken Breast",
+          "calories": "140",
+          "protein": "26g",
+          "carbs": "0g",
+          "fats": "3g"
+        },
+        {
+          "name": "Quinoa",
+          "calories": "150",
+          "protein": "4g",
+          "carbs": "30g",
+          "fats": "2g"
+        },
+        {
+          "name": "Broccoli",
+          "calories": "55",
+          "protein": "2g",
+          "carbs": "11g",
+          "fats": "0g"
+        }
+      ]
+    },
+    {
+      "meal": "Dinner",
+      "time": "18:00",
+      "food": [
+        {
+          "name": "Salmon",
+          "calories": "200",
+          "protein": "20g",
+          "carbs": "0g",
+          "fats": "12g"
+        },
+        {
+          "name": "Brown Rice",
+          "calories": "150",
+          "protein": "3g",
+          "carbs": "30g",
+          "fats": "1g"
+        },
+        {
+          "name": "Asparagus",
+          "calories": "20",
+          "protein": "2g",
+          "carbs": "4g",
+          "fats": "0g"
+        }
+      ]
+    },
+    {
+      "meal": "Snack",
+      "time": "15:00",
+      "food": [
+      ]
+    }
+  ],
+  "recentWorkouts": [
+    {
+      "date": "25-11-2024",
+      "exercise": "Running",
+      "duration": "30 minutes",
+      "caloriesBurned": "300"
+    },
+    {
+      "date": "26-11-2024",
+      "exercise": "Strength Training",
+      "duration": "45 minutes",
+      "caloriesBurned": "400"
+    }
+  ]
+}
