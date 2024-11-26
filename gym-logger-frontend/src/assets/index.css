@@ -36,6 +36,73 @@
     --radius: 0.5rem;
   }
 
+  .white {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+  .bad-white {
+    --background: 310.67 100% 52.63%;
+    --foreground: 222.2 84% 4.9%;
+
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+
+    --border: 88.3 66.8% 64.4%;
+    --input: 1 31.8% 44.4%;
+
+    --primary: 23.2 47.4% 61.2%;
+    --primary-foreground: 210 40% 98%;
+
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --ring: 222.2 84% 4.9%;
+
+    --radius: 0.5rem;
+  }
+
+
   .dark {
     --background: 222.2 84% 4.9%;
     --foreground: 210 40% 98%;
@@ -65,6 +132,37 @@
     --destructive-foreground: 210 40% 98%;
 
     --ring: 212.7 26.8% 83.9%;
+  }
+
+  .bad {
+    --background: 210 40% 20%; /* ciemny szary z niskim kontrastem */
+    --foreground: 210 40% 22%; /* bardzo zbliżony kolor do tła */
+
+    --muted: 0 0% 10%; /* niemal czarne */
+    --muted-foreground: 0 0% 12%; /* niemal niewidoczne różnice */
+
+    --popover: 210 20% 18%; /* mały kontrast do tła */
+    --popover-foreground: 0 0% 15%; /* jeszcze ciemniejszy odcień */
+
+    --card: 210 5% 95%; /* bardzo jasny, bliski bieli */
+    --card-foreground: 210 6% 96%; /* różnica niemal niedostrzegalna */
+
+    --border: 0 0% 25%; /* bardzo ciemny szary */
+    --input: 0 0% 23%; /* niemal identyczny z kolorem obramowania */
+
+    --primary: 210 1% 91%; /* bliski bieli */
+    --primary-foreground: 0 0% 92%; /* nieodróżnialny od tła */
+
+    --secondary: 0 100% 10%; /* ciemny czerwony, męczący dla oczu */
+    --secondary-foreground: 0 100% 12%; /* zbyt zbliżony do secondary */
+
+    --accent: 0 50% 8%; /* bardzo ciemny i niemal czarny */
+    --accent-foreground: 0 50% 10%; /* różnice trudne do zauważenia */
+
+    --destructive: 0 10% 8%; /* ciemny szary o niskim kontraście */
+    --destructive-foreground: 0 10% 10%; /* niemal niewidoczne różnice */
+
+    --ring: 210 50% 8%; /* zbyt ciemne i mało wyraziste */
   }
 }
 

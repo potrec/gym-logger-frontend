@@ -13,5 +13,4 @@ import { ref } from 'vue'
 
 const isOpen = ref(false)
 
-// You can add more functionality here if needed
 </script>

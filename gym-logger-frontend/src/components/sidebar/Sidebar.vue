@@ -1,6 +1,6 @@
 <!-- components/Sidebar.vue -->
 <template>
-  <div class="fixed inset-y-0 left-0 w-72 bg-gray-800 text-white p-8">
+  <div class="fixed inset-y-0 left-0 w-72 bg-primary text-white p-8">
     <div class="space-y-6">
       <a href="/" class="block py-2 px-4 hover:bg-gray-700">Home</a>
       <a href="/dashboard" class="block py-2 px-4 hover:bg-gray-700">Dashboard</a>
