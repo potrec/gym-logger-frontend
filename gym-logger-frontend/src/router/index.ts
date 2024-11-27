@@ -39,12 +39,47 @@ const routes = [
   {
     path: '/dietplanning',
     name: 'dietplanning',
-    component: () => import('@/views/DietPlanningView.vue')
+    component: () => import('@/views/diet/DietPlanningView.vue')
+  },
+  {
+    path: '/dietplanning/add',
+    name: 'addMeal',
+    component: () => import('@/views/diet/AddMealView.vue')
+  },
+  {
+    path: '/dietplanning/change',
+    name: 'changeDiet',
+    component: () => import('@/views/diet/ChangeDietView.vue')
   },
   {
     path: '/workouts',
-    name: 'workouts',
-    component: () => import('@/views/WorkoutsView.vue')
+    name: 'workoutsShedule',
+    component: () => import('@/views/workout/WorkoutsView.vue')
+  },
+  {
+    path: '/workouts/edit',
+    name: 'workoutsSheduleEdit',
+    component: () => import('@/views/workout/WorkoutsSheduleEditView.vue')
+  },
+  {
+    path: '/workouts/add',
+    name: 'workoutsSheduleAdd',
+    component: () => import('@/views/workout/WorkoutsSheduleAddView.vue')
+  },
+  {
+    path: '/workouts/change',
+    name: 'workoutsSheduleChange',
+    component: () => import('@/views/workout/WorkoutsSheduleChangeView.vue')
+  },
+  {
+    path: '/profile',
+    name: 'profile',
+    component: () => import('@/views/profile/ProfileView.vue')
+  },
+  {
+    path: '/measurements',
+    name: 'workoutsSheduleChange',
+    component: () => import('@/views/profile/MeasurementsView.vue')
   },
   {
     path: '/support',
@@ -55,6 +90,11 @@ const routes = [
     path: '/settings',
     name: 'settings',
     component: () => import('@/views/SettingsView.vue')
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: () => import('@/views/AboutView.vue')
   }
 ]
 

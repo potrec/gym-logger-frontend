@@ -10,7 +10,7 @@
         <ul class="mt-2 space-y-1">
           <li><a href="/dietplanning" class="block py-2 px-4 hover:bg-gray-700">Meal history</a></li>
           <li><a href="/dietplanning/add" class="block py-2 px-4 hover:bg-gray-700">Add meal</a></li>
-          <li><a href="/dietplanning/add" class="block py-2 px-4 hover:bg-gray-700">Change diet</a></li>
+          <li><a href="/dietplanning/change" class="block py-2 px-4 hover:bg-gray-700">Change diet</a></li>
         </ul>
       </div>
       <div class="py-2 px-4">
@@ -18,15 +18,15 @@
         <ul class="mt-2 space-y-1">
           <li><a href="/workouts" class="block py-2 px-4 hover:bg-gray-700">Workouts history</a></li>
           <li><a href="/workouts/add" class="block py-2 px-4 hover:bg-gray-700">Schedule workout</a></li>
-          <li><a href="/workouts/add" class="block py-2 px-4 hover:bg-gray-700">Edit workout</a></li>
-          <li><a href="/workouts/add" class="block py-2 px-4 hover:bg-gray-700">Change workout mode</a></li>
+          <li><a href="/workouts/edit" class="block py-2 px-4 hover:bg-gray-700">Edit workout</a></li>
+          <li><a href="/workouts/change" class="block py-2 px-4 hover:bg-gray-700">Change workout mode</a></li>
         </ul>
       </div>
       <div class="py-2 px-4">
         <span class="font-semibold">Profile</span>
         <ul class="mt-2 space-y-1">
-          <li><a href="/dietplanning" class="block py-2 px-4 hover:bg-gray-700">Edit measurements</a></li>
-          <li><a href="/dietplanning/add" class="block py-2 px-4 hover:bg-gray-700">Change account info</a></li>
+          <li><a href="/profile" class="block py-2 px-4 hover:bg-gray-700">Profile</a></li>
+          <li><a href="/measurements" class="block py-2 px-4 hover:bg-gray-700">Edit measurements</a></li>
         </ul>
       </div>
       <a href="/settings" class="block py-2 px-4 hover:bg-gray-700">Settings</a>
